@@ -7,10 +7,12 @@ import os
 
 
 def print_info(filename):
-    config = Config(filename)
-    monitor = TcpmirrorMonitor(config)
-    monitor.start()
-
+    try:
+        config = Config(filename)
+        monitor = TcpmirrorMonitor(config)
+        monitor.start()
+    except Exception as err:
+        print("ERROR: can't get info about", filename, ":", err)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("path", help="a file of a path to files")

@@ -6,7 +6,7 @@ from config import Config
 import os
 
 
-def print_info(filename):
+def analyze(filename):
     try:
         config = Config(filename)
         monitor = TcpmirrorMonitor(config)
@@ -20,8 +20,8 @@ args = parser.parse_args()
 if os.path.isdir(args.path):
     for file in os.listdir(args.path):
         if file.endswith(".toml"):
-            print_info(file)
+            analyze(file)
 elif os.path.isfile(args.path) and args.path.endswith(".toml"):
-    print_info(args.path)
+    analyze(args.path)
 else:
     print("ERROR: invalid file or path to a files")

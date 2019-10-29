@@ -14,13 +14,14 @@ def analyze(filename):
     except Exception as err:
         print("ERROR: can't get info about", filename, ":", err)
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("path", help="a file of a path to files")
 args = parser.parse_args()
 if os.path.isdir(args.path):
     for file in os.listdir(args.path):
         if file.endswith(".toml"):
-            analyze(file)
+            analyze(args.path + "/" + file)
 elif os.path.isfile(args.path) and args.path.endswith(".toml"):
     analyze(args.path)
 else:

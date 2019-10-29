@@ -4,7 +4,7 @@ class Consumer:
         self.name = key
         self.address = system['address']
         self.protocol = system['protocol']
-        self.id = system['id']
+        self.id = str(system['id'])
 
-    def name(self):
+    def full_name(self):
         return self.name + " (" + self.protocol + ")"

@@ -16,7 +16,7 @@ class TcpmirrorMonitor:
         self._analyze_db()
 
     def _print_table(self):
-        table = PrettyTable()
+        table = PrettyTable(title=self.config.name)
         table.field_names = self._field_names()
         data = self._data()
         table.add_row(data)
@@ -26,7 +26,7 @@ class TcpmirrorMonitor:
         sources = "sources (" + self.config.listen_protocol + ")"
         consumers = []
         for consumer in self.config.consumers:
-            consumers.append(consumer.name())
+            consumers.append(consumer.full_name())
         return [sources] + consumers
 
     def _data(self):
@@ -82,14 +82,13 @@ class TcpmirrorMonitor:
         if consumer.protocol == "EGTS" or consumer.protocol == "NDTP":
             pattern = self._pattern(consumer)
             keys = self.r.keys(pattern)
-            print("Sent", len(keys), "packets to" + consumer.name())
+            print("Sent", len(keys), "packets to " + consumer.full_name())
         else:
             print("Error: unexpected protocol", consumer.protocol)
 
-    @staticmethod
-    def _pattern(consumer):
+    def _pattern(self, consumer):
         if consumer.protocol == "EGTS":
-            return "egts:" + consumer.name + ":" + consumer.id + "*"
+            return "egts:" + self.config.name + ":" + consumer.id + "*"
         if consumer.protocol == "NDTP":
             return "ndtp:" + consumer.id + "*"
 
